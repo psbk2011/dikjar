@@ -1,9 +1,241 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="">
-	</ui:composition>
+<ui:composition template="/template/main.xhtml">
+
+	<!-- tag for insert to content in template -->
+	<ui:define name="content">
+
+		<p:commandButton id="input" value="Input Data Dosen"
+			onclick="PF('dlg3').show();" type="button" icon="ui-icon-circle-plus" />
+		<p:dialog header="Input Data Dosen" widgetVar="dlg3" showEffect="drop"
+			hideEffect="drop" resizable="false">
+			<h:form enctype="multipart/form-data"
+				styleClass="uk-form uk-form-stacked" id="in">
+
+				<!-- NIDN -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="NIDN" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText id="nidn" required="true" styleClass="uk-width-1-1"
+							value="#{dosenController.id_dosen}" />
+
+						<p:watermark value="NIDN Anda" for="nidn"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- NAMA -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="Nama" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText required="true" id="nama" styleClass="uk-width-1-1"
+							value="#{dosenController.nama_dosen}" />
+
+						<p:watermark value="Nama Anda" for="nama"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- JABATAN -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="Jabatan" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:selectOneMenu value="#{dosenController.jabatan}"
+							style="width:100%">
+							<f:selectItem itemLabel="Pilih Jabatan" itemValue="" />
+							<f:selectItem itemLabel="Dosen" itemValue="Dosen" />
+							<f:selectItem itemLabel="Kordinator Matakuliah"
+								itemValue="Kordinator Matakuliah" />
+							<f:selectItem itemLabel="Kordinator Praktikum"
+								itemValue="Kordinator Praktikum" />
+						</p:selectOneMenu>
+
+					</div>
+
+				</div>
+
+				<!-- TELEPON -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="No Telepon" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText required="true" id="telepon"
+							styleClass="uk-width-1-1" value="#{dosenController.telepon}" />
+
+						<p:watermark value="No Telepon Anda" for="telepon"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- EMAIL -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="E-mail" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText id="email" required="true" styleClass="uk-width-1-1"
+							value="#{dosenController.email}" />
+
+						<p:watermark value="email@unpas.ac.id" for="email"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- PASSWORD -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="Password" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<h:inputSecret id="password" required="true"
+							styleClass="uk-width-1-1" value="#{dosenController.password}" />
+
+						<p:watermark value="Kata Sandi Anda" for="password"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- HAK AKSES -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="Hak Akses" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:selectOneMenu value="#{dosenController.hak_akses}"
+							style="width:100%">
+							<f:selectItem itemLabel="Pilih Hak Akses" itemValue="" />
+							<f:selectItem itemLabel="Admin" itemValue="1" />
+							<f:selectItem itemLabel="User" itemValue="0" />
+						</p:selectOneMenu>
+
+					</div>
+
+				</div>
+
+				<!-- BUTTON -->
+				<div class="uk-form-row">
+					<p:commandButton value="Submit" ajax="false"
+						actionListener="#{dosenController.actionDosen()}" id="e" />
+				</div>
+
+
+			</h:form>
+		</p:dialog>
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable id="dosens" var="dosen"
+				value="#{dosenController.dosenList}" paginator="true" rows="5"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+				emptyMessage="Tidak Terdapat data dosen"
+				filteredValue="#{dosenController.d}">
+				<f:facet name="header">  
+            Data Dosen TIF Unpas  
+        </f:facet>
+				<p:column filterBy="#{dosen.id_dosen}">
+					<f:facet name="header">
+						<h:outputText value="NID" />
+					</f:facet>
+					<h:outputText value="#{dosen.id_dosen}" />
+				</p:column>
+
+				<p:column filterBy="#{dosen.nama_dosen}">
+					<f:facet name="header">
+						<h:outputText value="Nama Dosen" />
+					</f:facet>
+					<h:outputText value="#{dosen.nama_dosen}" />
+				</p:column>
+
+				<p:column filterBy="#{dosen.jabatan}">
+					<f:facet name="header">
+						<h:outputText value="Jabatan" />
+					</f:facet>
+					<h:outputText value="#{dosen.jabatan}" />
+				</p:column>
+
+				<p:column filterBy="#{dosen.telepon}">
+					<f:facet name="header">
+						<h:outputText value="Telepon" />
+					</f:facet>
+					<h:outputText value="#{dosen.telepon}" />
+				</p:column>
+
+				<p:column filterBy="#{dosen.email}">
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:outputText value="#{dosen.email}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Aksi" />
+					</f:facet>
+
+					<p:commandButton update="confrim"
+						oncomplete="PF('confrim').show()" icon="ui-icon-pencil"
+						title="View">
+						<f:setPropertyActionListener value="#{dosen}"
+							target="#{dosenController.dosen}" />
+					</p:commandButton>
+
+					<p:commandButton update="confrim"
+						oncomplete="PF('confrim').show()" icon="ui-icon-trash"
+						title="View">
+						<f:setPropertyActionListener value="#{dosen}"
+							target="#{dosenController.dosen}" />
+					</p:commandButton>
+					
+					<p:confirmDialog id="confrim" widgetVar="confrim" modal="true"
+						showEffect="fade" hideEffect="fade" resizable="false"
+						message="Anda Yakin akan menghapus data #{dosenController.dosen.id_dosen}">
+						<p:commandButton value="Yes"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{dosenController.deleteDosen(dosen)}" oncomplete="PF('confrim').hide()" update=":form">
+							</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('confrim').hide()" />
+
+					</p:confirmDialog>
+					
+				</p:column>
+
+			</p:dataTable>
+
+			
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="sidebar">
+		<ui:include src="/admin/sidebar.xhtml" />
+	</ui:define>
+
+</ui:composition>
 </html>
