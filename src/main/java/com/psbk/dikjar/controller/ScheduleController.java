@@ -53,43 +53,41 @@ public class ScheduleController implements Serializable {
 	public void init() {
 		eventModel = new DefaultScheduleModel();
 		try {
-			for (Schedule schedule : getScheduleService()
-					.getSchedules()) {
-				
+			for (Schedule schedule : getScheduleService().getSchedules()) {
+
 				/*
 				 * For Start Event
 				 */
-				String tahun = schedule.getTangal_mulai().substring(0,
-						4);
-				String bulan = schedule.getTangal_mulai().substring(5,
-						7);
-				int tanggal = Integer.parseInt(schedule.getTangal_mulai().substring(
-						8, 10))+1;
+				String tahun = schedule.getTangal_mulai().substring(0, 4);
+				String bulan = schedule.getTangal_mulai().substring(5, 7);
+				int tanggal = Integer.parseInt(schedule.getTangal_mulai()
+						.substring(8, 10)) + 1;
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 				String dateInString = tanggal + "-" + bulan + "-" + tahun;
 				Date dateMulai = formatter.parse(dateInString);
-				
-				String tahunSelesai = schedule.getTanggal_selesai().substring(0,
-						4);
-				String bulanSelesai = schedule.getTanggal_selesai().substring(5,
-						7);
-				int tanggalSelesai = Integer.parseInt(schedule.getTanggal_selesai().substring(
-						8, 10))+1;
-				dateInString = tanggalSelesai + "-" + bulanSelesai + "-" + tahunSelesai;
+
+				String tahunSelesai = schedule.getTanggal_selesai().substring(
+						0, 4);
+				String bulanSelesai = schedule.getTanggal_selesai().substring(
+						5, 7);
+				int tanggalSelesai = Integer.parseInt(schedule
+						.getTanggal_selesai().substring(8, 10)) + 1;
+				dateInString = tanggalSelesai + "-" + bulanSelesai + "-"
+						+ tahunSelesai;
 				Date dateSelesai = formatter.parse(dateInString);
-				
-				eventModel.addEvent(new DefaultScheduleEvent(schedule.getNama_agenda(),
-						dateMulai, dateSelesai));
+
+				eventModel.addEvent(new DefaultScheduleEvent(schedule
+						.getNama_agenda(), dateMulai, dateSelesai));
 				event.setId(schedule.getId_agenda());
 				System.out.println(event.getId());
 			}
-			
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	/**
 	 * @return the eventModel
 	 */
@@ -98,7 +96,8 @@ public class ScheduleController implements Serializable {
 	}
 
 	/**
-	 * @param eventModel the eventModel to set
+	 * @param eventModel
+	 *            the eventModel to set
 	 */
 	public void setEventModel(ScheduleModel eventModel) {
 		this.eventModel = eventModel;
@@ -112,12 +111,13 @@ public class ScheduleController implements Serializable {
 	}
 
 	/**
-	 * @param event the event to set
+	 * @param event
+	 *            the event to set
 	 */
 	public void setEvent(ScheduleEvent event) {
 		this.event = event;
 	}
-	
+
 	/**
 	 * 
 	 * @param selectEvent
@@ -126,7 +126,7 @@ public class ScheduleController implements Serializable {
 		event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(),
 				(Date) selectEvent.getObject());
 	}
-	
+
 	/**
 	 * 
 	 * @param selectEvent
@@ -136,7 +136,7 @@ public class ScheduleController implements Serializable {
 		event = (ScheduleEvent) selectEvent.getObject();
 		event.setId(id);
 	}
-	
+
 	/**
 	 * 
 	 * @param event
@@ -160,7 +160,7 @@ public class ScheduleController implements Serializable {
 
 		addMessage(message);
 	}
-	
+
 	/**
 	 * 
 	 * @param actionEvent
@@ -170,28 +170,51 @@ public class ScheduleController implements Serializable {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(event.getId());
-		Schedule schedule = new Schedule();
-		if (event.getId() == null){
+		if (event.getId() == null) {
+
+			Schedule schedule = new Schedule();
 			eventModel.addEvent(event);
-			schedule.setId_agenda(eventModel.getEvents().get(eventModel.getEvents().size()-1).getId());
-			schedule.setNama_agenda(eventModel.getEvents().get(eventModel.getEvents().size()-1).getTitle());
-			schedule.setTangal_mulai(sdf.format(eventModel.getEvents().get(eventModel.getEvents().size()-1).getStartDate()));
-			schedule.setTanggal_selesai(sdf.format(eventModel.getEvents().get(eventModel.getEvents().size()-1).getEndDate()));
-			schedule.setKeterangan(eventModel.getEvents().get(eventModel.getEvents().size()-1).getDescription());
+			schedule.setId_agenda(eventModel.getEvents()
+					.get(eventModel.getEvents().size() - 1).getId());
+			schedule.setNama_agenda(eventModel.getEvents()
+					.get(eventModel.getEvents().size() - 1).getTitle());
+			schedule.setTangal_mulai(sdf.format(eventModel.getEvents()
+					.get(eventModel.getEvents().size() - 1).getStartDate()));
+			schedule.setTanggal_selesai(sdf.format(eventModel.getEvents()
+					.get(eventModel.getEvents().size() - 1).getEndDate()));
+			schedule.setKeterangan(eventModel.getEvents()
+					.get(eventModel.getEvents().size() - 1).getDescription());
 			getScheduleService().addShedule(schedule);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Success", "Input Schedule :" + schedule.getNama_agenda());
+
+			addMessage(message);
+		} else {
+			 eventModel.updateEvent(event);
+			 for (int i = 0; i < eventModel.getEvents().size(); i++) {
+
+					Schedule schedule = new Schedule();
+					schedule.setId_agenda(eventModel.getEvents()
+							.get(i).getId());
+					schedule.setNama_agenda(eventModel.getEvents()
+							.get(i).getTitle());
+					schedule.setTangal_mulai(sdf.format(eventModel.getEvents()
+							.get(i).getStartDate()));
+					schedule.setTanggal_selesai(sdf.format(eventModel.getEvents()
+							.get(i).getEndDate()));
+					schedule.setKeterangan(eventModel.getEvents()
+							.get(i).getDescription());
+					System.out.println(i+" : "+eventModel.getEvents()
+							.get(i).getId());
+//					getScheduleService().updateShedule(schedule);
+
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Success", "Update Schedule");
+			}
 		}
-		else{
-			schedule.setId_agenda(event.getId());
-			schedule.setNama_agenda(event.getTitle());
-			schedule.setTangal_mulai(sdf.format(event.getStartDate()));
-			schedule.setTanggal_selesai(sdf.format(event.getEndDate()));
-			schedule.setKeterangan(event.getDescription());
-			getScheduleService().updateShedule(schedule);
-//			eventModel.updateEvent(event);
-		}
-//		event = new DefaultScheduleEvent();
+		// event = new DefaultScheduleEvent();
 	}
-	
+
 	/**
 	 * 
 	 * @param message
