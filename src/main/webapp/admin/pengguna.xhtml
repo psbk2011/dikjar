@@ -12,10 +12,11 @@
 
 		<p:commandButton id="input" value="Input Data Dosen"
 			onclick="PF('dlg3').show();" type="button" icon="ui-icon-circle-plus" />
-		<p:dialog header="Input Data Dosen" widgetVar="dlg3" showEffect="drop"
-			hideEffect="drop" resizable="false">
+			
 			<h:form enctype="multipart/form-data"
 				styleClass="uk-form uk-form-stacked" id="in">
+		<p:dialog header="Input Data Dosen" widgetVar="dlg3" showEffect="drop"
+			hideEffect="drop" resizable="false" id="dlg3">
 
 				<!-- NIDN -->
 				<div class="uk-form-row">
@@ -143,8 +144,8 @@
 				</div>
 
 
-			</h:form>
-		</p:dialog>
+			
+		</p:dialog></h:form>
 
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
@@ -197,37 +198,40 @@
 						<h:outputText value="Aksi" />
 					</f:facet>
 
-					<p:commandButton update="confrim"
-						oncomplete="PF('confrim').show()" icon="ui-icon-pencil"
-						title="View">
+					<p:commandButton update=":in:dlg3"
+						oncomplete="PF('dlg3').show()" icon="ui-icon-pencil"
+						title="View" actionListener="#{dosenController.editDosen(dosen)}">
+						
+					</p:commandButton>
+
+
+					<p:commandButton update="confrim" oncomplete="PF('confrim').show()"
+						icon="ui-icon-trash" title="View">
 						<f:setPropertyActionListener value="#{dosen}"
 							target="#{dosenController.dosen}" />
 					</p:commandButton>
 
-					<p:commandButton update="confrim"
-						oncomplete="PF('confrim').show()" icon="ui-icon-trash"
-						title="View">
-						<f:setPropertyActionListener value="#{dosen}"
-							target="#{dosenController.dosen}" />
-					</p:commandButton>
-					
 					<p:confirmDialog id="confrim" widgetVar="confrim" modal="true"
 						showEffect="fade" hideEffect="fade" resizable="false"
-						message="Anda Yakin akan menghapus data #{dosenController.dosen.id_dosen}">
-						<p:commandButton value="Yes"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{dosenController.deleteDosen(dosen)}" oncomplete="PF('confrim').hide()" update=":form">
-							</p:commandButton>
+						message="Anda Yakin akan menghapus data #{dosenController.dosen.id_dosen}"
+						header="Perhatian">
+
+						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check"
+							action="#{dosenController.deleteDosen(dosen)}"
+							oncomplete="PF('confrim').hide()" update=":form">
+						</p:commandButton>
 						<p:commandButton value="No" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 							onclick="PF('confrim').hide()" />
 
 					</p:confirmDialog>
-					
+
 				</p:column>
 
 			</p:dataTable>
 
-			
+
 
 		</h:form>
 

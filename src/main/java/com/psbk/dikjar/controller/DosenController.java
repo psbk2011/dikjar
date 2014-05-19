@@ -173,7 +173,7 @@ public class DosenController implements Serializable {
 	 */
 
 	private static int _status = 0;
-	private Dosen dosen;
+	private Dosen dosen = new Dosen();
 	private Users users = new Users();
 	
 	private String password;
@@ -294,10 +294,9 @@ public class DosenController implements Serializable {
 		this.setPassword("");
 	}
 	
-	public void editDosen(String id){
+	public void editDosen(Dosen dosen){
 		_status = 1;
-		System.out.println(id);
-		dosen = getDosenService().getDosenById(id);
+		dosen = getDosenService().getDosenById(dosen.getId_dosen());
 		System.out.println(dosen.getEmail());
 //		users = getDosenService().getUserById(id);
 //		
