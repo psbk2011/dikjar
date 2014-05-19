@@ -42,15 +42,141 @@ public class DokumenBean implements Serializable {
 
 	List<Dokumen> listSearch;
 
+	/**
+	 * @return the dokumenList
+	 */
+	public List<Dokumen> getDokumenList() {
+		dokumenList = new ArrayList<>();
+		dokumenList.addAll(getDokumenService().getDokumens());
+		return dokumenList;
+	}
+
+	/**
+	 * @param dokumenList
+	 *            the dokumenList to set
+	 */
+	public void setDokumenList(List<Dokumen> dokumenList) {
+		this.dokumenList = dokumenList;
+	}
+
+	/**
+	 * @return the listSearch
+	 */
+	public List<Dokumen> getListSearch() {
+		return listSearch;
+	}
+
+	/**
+	 * @param listSearch
+	 *            the listSearch to set
+	 */
+	public void setListSearch(List<Dokumen> listSearch) {
+		this.listSearch = listSearch;
+	}
+
 	private String id_dokumen;
 	private String nama_dokumen;
 	private UploadedFile uploadedFile;
 	private String jenis_dokumen;
 
-	private Dokumen DOKUMEN = new Dokumen();
-	private static int STATUS = 0;
+	private static int _status = 0;
 
-	public void setId_Dokumen() {
+	/**
+	 * @return the dokumenService
+	 */
+	public DokumenService getDokumenService() {
+		return dokumenService;
+	}
+
+	/**
+	 * @param dokumenService
+	 *            the dokumenService to set
+	 */
+	public void setDokumenService(DokumenService dokumenService) {
+		this.dokumenService = dokumenService;
+	}
+
+	/**
+	 * @return the id_dokumen
+	 */
+	public String getId_dokumen() {
+		if (_status == 0) {
+			autoId_Dokumen();
+		}
+		return id_dokumen;
+	}
+
+	/**
+	 * @param id_dokumen
+	 *            the id_dokumen to set
+	 */
+	public void setId_dokumen(String id_dokumen) {
+		this.id_dokumen = id_dokumen;
+	}
+
+	/**
+	 * @return the nama_dokumen
+	 */
+	public String getNama_dokumen() {
+		return nama_dokumen;
+	}
+
+	/**
+	 * @param nama_dokumen
+	 *            the nama_dokumen to set
+	 */
+	public void setNama_dokumen(String nama_dokumen) {
+		this.nama_dokumen = nama_dokumen;
+	}
+
+	/**
+	 * @return the uploadedFile
+	 */
+	public UploadedFile getUploadedFile() {
+		return uploadedFile;
+	}
+
+	/**
+	 * @param uploadedFile
+	 *            the uploadedFile to set
+	 */
+	public void setUploadedFile(UploadedFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
+
+	/**
+	 * @return the jenis_dokumen
+	 */
+	public String getJenis_dokumen() {
+		return jenis_dokumen;
+	}
+
+	/**
+	 * @param jenis_dokumen
+	 *            the jenis_dokumen to set
+	 */
+	public void setJenis_dokumen(String jenis_dokumen) {
+		this.jenis_dokumen = jenis_dokumen;
+	}
+
+	private Dokumen dokumen = new Dokumen();
+
+	/**
+	 * @return the dokumen
+	 */
+	public Dokumen getDokumen() {
+		return dokumen;
+	}
+
+	/**
+	 * @param dokumen
+	 *            the dokumen to set
+	 */
+	public void setDokumen(Dokumen dokumen) {
+		this.dokumen = dokumen;
+	}
+
+	public void autoId_Dokumen() {
 		int i = 0;
 		String id_dokumen_tem = getDokumenService().maxID();
 		String angka = id_dokumen_tem.substring(id_dokumen_tem.length() - 2,
@@ -69,151 +195,69 @@ public class DokumenBean implements Serializable {
 		this.id_dokumen = "DK-" + kalimat + i;
 	}
 
-	public DokumenService getDokumenService() {
-		return dokumenService;
-	}
+	public void actionDokume() {
+		Dokumen d = new Dokumen();
 
-	/**
-	 * @return the listSearch
-	 */
-	public List<Dokumen> getListSearch() {
-		return listSearch;
-	}
-
-	/**
-	 * @param listSearch
-	 *            the listSearch to set
-	 */
-	public void setListSearch(List<Dokumen> listSearch) {
-		this.listSearch = listSearch;
-	}
-
-	public void setDokumenService(DokumenService dokumenService) {
-		this.dokumenService = dokumenService;
-	}
-
-	public List<Dokumen> getDokumenList() {
-		dokumenList = new ArrayList<Dokumen>();
-		dokumenList.addAll(getDokumenService().getDokumens());
-		return dokumenList;
-	}
-
-	public void setDokumenList(List<Dokumen> dokumenList) {
-		this.dokumenList = dokumenList;
-	}
-
-	public String getId_dokumen() {
-		if (STATUS == 0) {
-			setId_Dokumen();
-		}
-		return id_dokumen;
-	}
-
-	public void setId_dokumen(String id_dokumen) {
-		this.id_dokumen = id_dokumen;
-	}
-
-	public String getNama_dokumen() {
-		return nama_dokumen;
-	}
-
-	public void setNama_dokumen(String nama_dokumen) {
-		this.nama_dokumen = nama_dokumen;
-	}
-
-	public UploadedFile getUploadedFile() {
-		return uploadedFile;
-	}
-
-	public void setUploadedFile(UploadedFile uploadedFile) {
-		this.uploadedFile = uploadedFile;
-	}
-
-	public String getJenis_dokumen() {
-		return jenis_dokumen;
-	}
-
-	public void setJenis_dokumen(String jenis_dokumen) {
-		this.jenis_dokumen = jenis_dokumen;
-	}
-
-	public void addDokumen() {
+		d.setId_dokumen(getId_dokumen());
+		d.setNama_dokumen(getNama_dokumen());
+		d.setNama_file(getUploadedFile().getFileName());
+		d.setJenis_dokumen(getJenis_dokumen());
+		
+		System.out.println(d.getId_dokumen());
+		System.out.println(d.getNama_dokumen());
+		System.out.println(d.getNama_file());
+		System.out.println(d.getJenis_dokumen());
+		System.out.println(_status);
 		try {
-			if (getUploadedFile() != null) {
-				Dokumen dokumen = new Dokumen();
-				dokumen.setId_dokumen(getId_dokumen());
-				dokumen.setNama_dokumen(getNama_dokumen());
-				dokumen.setNama_file(getUploadedFile().getFileName());
-				dokumen.setJenis_dokumen(getJenis_dokumen());
+			if (_status == 0) {
 				handleFileUpload();
-
-				if (STATUS == 0) {
-					getDokumenService().addDokumen(dokumen);
-				} else {
-					getDokumenService().updateDokumen(dokumen);
-					STATUS = 0;
-				}
+				getDokumenService().addDokumen(d);
 				FacesMessage msg = new FacesMessage("Succesful",
-						getNama_dokumen() + " is uploaded.");
+						d.getId_dokumen() + " Berhasil diinputkan");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
-
-				reset();
-
-				// return SUCCESS;
+				resetField();
 			} else {
-				FacesMessage msg = new FacesMessage("Error");
+				handleFileUpload();
+				System.out.println(d.getId_dokumen());
+				getDokumenService().updateDokumen(d);
+				FacesMessage msg = new FacesMessage("Succesful",
+						d.getId_dokumen() + " Berhasil diedit");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+				resetField();
+				_status = 0;
 			}
-		} catch (DataAccessException e) {
+		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("Error");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-
-		// return ERROR;
-
 	}
 
-	/**
-	 * @return the dOKUMEN
-	 */
-	public Dokumen getDOKUMEN() {
-		return DOKUMEN;
-	}
-
-	/**
-	 * @param dOKUMEN
-	 *            the dOKUMEN to set
-	 */
-	public void setDOKUMEN(Dokumen dOKUMEN) {
-		DOKUMEN = dOKUMEN;
-	}
-
-	public void editDokumen(Dokumen id_dokumen) {
-		STATUS = 1;
-		id_dokumen = getDokumenService().getDokumenById(id_dokumen.getId_dokumen());
-		setId_dokumen(id_dokumen.getId_dokumen());
-		setNama_dokumen(id_dokumen.getNama_dokumen());
-		setJenis_dokumen(id_dokumen.getJenis_dokumen());
-	}
-
-	public void deleteDokumen(Dokumen id_dokumen) {
-		getDokumenService().deleteDokumen(id_dokumen);
-		FacesMessage msg = new FacesMessage("Success delete");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public void reset() {
+	public void resetField() {
+		this.setId_dokumen("");
 		this.setNama_dokumen("");
 		this.setUploadedFile(null);
 		this.setJenis_dokumen("");
 	}
-
+	
+	public void editDokumen(Dokumen d) {
+		_status = 1;
+		d = getDokumenService().getDokumenById(d.getId_dokumen());
+		
+		setId_dokumen(d.getId_dokumen());
+		System.out.println(getId_dokumen());
+		setNama_dokumen(d.getNama_dokumen());
+		setJenis_dokumen(d.getJenis_dokumen());
+	}
+	
+	public void deleteDokumen(Dokumen d){
+		getDokumenService().deleteDokumen(d);
+		FacesMessage msg = new FacesMessage("Success delete dokumen "+d.getId_dokumen());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
 	public void handleFileUpload() {
 		try {
 			File targetFolder = new File(
-					"C:/Xampp/tomcat/webapps/dikjar_TIF/assets/resources");
+					"C:/Xampp/tomcat/webapps/dikjar/assets/resources");
 			InputStream inputStream = getUploadedFile().getInputstream();
 			OutputStream out = new FileOutputStream(new File(targetFolder,
 					getUploadedFile().getFileName()));

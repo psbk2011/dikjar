@@ -77,7 +77,7 @@
 				<!-- BUTTON -->
 				<div class="uk-form-row">
 					<p:commandButton value="Submit" ajax="false"
-						actionListener="#{dokumenBean.addDokumen()}" id="e" />
+						actionListener="#{dokumenBean.actionDokume()}" id="e" />
 				</div>
 
 
@@ -86,11 +86,11 @@
 
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
-			<p:dataTable id="komunes" var="dokumen"
+			<p:dataTable id="dokumens" var="dokumen"
 				value="#{dokumenBean.dokumenList}" paginator="true" rows="5"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
-				emptyMessage="Tidak Terdapat data dosen"
+				emptyMessage="Tidak Terdapat data dokumen"
 				filteredValue="#{dokumenBean.listSearch}">
 				<f:facet name="header">  
             Data Dokumen TIF Unpas  
@@ -139,17 +139,17 @@
 					<p:commandButton update="confrim" oncomplete="PF('confrim').show()"
 						icon="ui-icon-trash" title="View">
 						<f:setPropertyActionListener value="#{dokumen}"
-							target="#{dokumenBean.DOKUMEN}" />
+							target="#{dokumenBean.dokumen}" />
 					</p:commandButton>
 
 					<p:confirmDialog id="confrim" widgetVar="confrim" modal="true"
 						showEffect="fade" hideEffect="fade" resizable="false"
-						message="Anda Yakin akan menghapus data #{dokumenBean.DOKUMEN.nama_dokumen}"
+						message="Anda Yakin akan menghapus data #{dokumenBean.dokumen.nama_dokumen}"
 						header="Perhatian">
 
 						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
 							icon="ui-icon-check"
-							action="#{dokumenBean.deleteDokumen(dokumenBean.DOKUMEN)}"
+							action="#{dokumenBean.deleteDokumen(dokumen)}"
 							oncomplete="PF('confrim').hide()" update=":form">
 						</p:commandButton>
 						<p:commandButton value="No" type="button"
