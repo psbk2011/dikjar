@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<!-- tag for header -->
+	<p:panel styleClass="header">
+		<!-- tag for title dikjar -->
+		<ul class="psbk-title">
+			<li><img src="../assets/images/LOGO-UNPAS.png" alt=""
+				width="50px" /></li>
+			<li><h:outputText styleClass="uk-h3" style="padding-left: 10px;"
+					value="DIKJAR TEKNIK INFORMATIKA UNPAS" /></li>
+			<li class="uk-float-right">
+				<!-- tag for user dikjar -->
+				<ul class="psbk-user">
+					<li><h:form>
+							<p:commandButton value="Keluar" id="withIcon"
+								icon="ui-icon-power" action="/index?faces-redirect=true" />
+						</h:form></li>
+
+				</ul> <!-- end for user dikjar -->
+			</li>
+		</ul>
+		<!-- end tag header -->
+
+	</p:panel>
+	<!-- end tag header -->
+
+</h:body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/main.xhtml">
+
+	<!-- tag for insert to content in template -->
+	<ui:define name="content">
+
+		<!-- Agenda Schedule -->
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+
+			<h3 style="margin-top: 0">Editable Schedule</h3>
+			<p:schedule id="schedule" value="#{scheduleController.eventModel}"
+				widgetVar="myschedule">
+
+				<p:ajax event="dateSelect" listener="#{scheduleController.onDateSelect}"
+					update="eventDetails" oncomplete="PF('eventDialog').show();" />
+				<p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}"
+					update="eventDetails" oncomplete="PF('eventDialog').show();" />
+				<p:ajax event="eventMove" listener="#{scheduleController.onEventMove}"
+					update="messages" />
+				<p:ajax event="eventResize" listener="#{scheduleController.onEventResize}"
+					update="messages" />
+
+			</p:schedule>
+
+			<!-- Dialog -->
+			<p:dialog widgetVar="eventDialog" header="Event Details"
+				showEffect="clip" hideEffect="clip">
+				<h:panelGrid id="eventDetails" columns="2">
+					<h:outputLabel for="title" value="Title:" />
+					<p:inputText id="title" value="#{scheduleController.event.title}"
+						required="true" />
+
+					<h:outputLabel for="from" value="From:" />
+					<p:inputMask id="from" value="#{scheduleController.event.startDate}"
+						mask="99/99/9999">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputMask>
+
+					<h:outputLabel for="to" value="To:" />
+					<p:inputMask id="to" value="#{scheduleController.event.endDate}"
+						mask="99/99/9999">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputMask>
+						
+						<h:outputLabel for="description" value="Keterangan :" />
+					<p:inputTextarea rows="10" cols="50" value="#{scheduleController.event.description}"/>
+
+					<p:commandButton type="reset" value="Reset" />
+					<p:commandButton id="addButton" value="Save"
+						actionListener="#{scheduleController.addEvent}"
+						oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="sidebar">
+		<ui:include src="/admin/sidebar.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</html>

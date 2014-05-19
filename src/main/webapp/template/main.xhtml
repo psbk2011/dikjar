@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<!-- uikit references -->
+	<link rel="stylesheet" type="text/css"
+		href="../assets/css/uikit.gradient.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../assets/css/addons/uikit.gradient.addons.css" />
+	<!-- end uikit references -->
+
+	<!-- dikjar references -->
+	<link rel="stylesheet" type="text/css"
+		href="../assets/css/dikjar_style.css" />
+	<!-- end dikjar references -->
+
+</h:head>
+<body>
+
+	<!-- HEADER -->
+	<ui:include src="/template/header.xhtml" />
+	<!-- END HEADER -->
+
+
+	<div class="uk-grid">
+		<p:panel styleClass="uk-width-1-5 uk-hidden-small psbk-side">
+			<ui:insert name="sidebar">
+			ini untuk sidebar
+		</ui:insert>
+
+		</p:panel>
+		<!-- panel for home -->
+		<p:panel styleClass="uk-width-medium-4-5 psbk-content"
+			header="Portal Dikjar Tahun Ajaran 2014/2015">
+			<ui:insert name="content">
+				ini untuk content
+			</ui:insert>
+		</p:panel>
+		<!-- end panel home -->
+	</div>
+
+	<!-- FOOTER -->
+	<ui:include src="/template/footer.xhtml" />
+	<!-- END FOOTER -->
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>DIKJAR TIF UNPAS</title>
+	<link rel="stylesheet" type="text/css"
+		href="assets/css/uikit.almost-flat.css" />
+
+</h:head>
+<body>
+
+	<!-- Login Panel -->
+	<p:panel styleClass="uk-width-1-2 uk-container-center"
+		header="DIKJAR TIF UNPAS">
+
+		<!-- Message -->
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" />
+
+		<!-- Form Login -->
+		<h:form id="form_login" styleClass="uk-form uk-form-stacked">
+
+			<!-- Username -->
+			<div class="uk-form-row">
+				<h:outputLabel value="#{login['user']}" for="username"
+					styleClass="uk-form-label" />
+				<div class="uk-form-controls">
+					<h:inputText id="username" styleClass="uk-width-1-1"
+						required="true" requiredMessage="Masukan Email Passmail Anda" value="#{userController.username}"/>
+					<p:watermark value="email@unpas.ac.id" for="username"></p:watermark>
+				</div>
+			</div>
+
+			<!-- Password -->
+			<div class="uk-form-row">
+				<h:outputLabel value="#{login['pass']}" for="password"
+					styleClass="uk-form-label"/>
+				<div class="uk-form-controls">
+					<h:inputSecret id="password"
+						styleClass="uk-width-1-1" required="true"
+						requiredMessage="Masukan Kata Sandi Anda" value="#{userController.password}"/>
+					<p:watermark value="Kata Sandi" for="password"></p:watermark>
+				</div>
+			</div>
+
+			<!-- Button -->
+			<div class="uk-form-row">
+				<p:commandButton update="form_login" value="Login" action="#{userController.actionLogin()}"/>
+
+				<p:selectOneMenu id="console" style="width:20%" styleClass="uk-float-right" valueChangeListener="#{userController.countryLocaleCodeChanged}" value="#{userController.localeCode}" onchange="submit()">
+					<f:selectItems value="#{userController.countriesInMap}" /> 
+				</p:selectOneMenu>
+			</div>
+
+		</h:form>
+
+	</p:panel>
+
+</body>
+</html>

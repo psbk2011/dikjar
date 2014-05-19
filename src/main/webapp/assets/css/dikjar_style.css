@@ -1,0 +1,85 @@
+@CHARSET "ISO-8859-1";
+
+/*
+	for login
+*/
+.psbk-login {
+	margin-top: 15%;
+}
+
+/*
+	for header dikjar
+*/
+.header {
+	color: white !important;
+	max-height: 70px;
+	background-color: #093807 !important;
+	border: 0px;
+}
+
+.psbk-title {
+	color: white;
+	list-style: none;
+	padding-left: 0px;
+	list-style: none;
+}
+
+.psbk-title>li {
+	display: inline-block;
+}
+
+.psbk-user {
+	padding-top: 10px;
+}
+
+.psbk-user>li {
+	display: inline-block;
+}
+
+/*
+	for content
+*/
+.psbk-content {
+	padding-left: 0.2em !important;
+	min-height: 521px;
+}
+
+/*
+	for footer
+*/
+.footer {
+	background-color: black !important;
+}
+
+.footer .ui-widget-content {
+	color: white !important;
+}
+
+/*
+	for default
+*/
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
+	background-image: linear-gradient(to bottom, #006D09, #008B43)
+		!important;
+}
+
+.fc-event {
+	border: 1px solid #0C521A;
+	background-color: #184D27;
+}
+
+.ui-accordion .ui-accordion-header.ui-state-active {
+	background-color: #093807;
+	color: white;
+}
+
+.ui-inputfield.ui-state-focus,.ui-widget-content .ui-inputfield.ui-state-focus,.ui-widget-header .ui-inputfield.ui-state-focus
+	{
+	border-color: rgba(52, 158, 38, 0.8) !important;
+}
+
+/* .ui-widget-header {
+	background: black !important;
+	color: #D6D6D6 !important;
+} */
