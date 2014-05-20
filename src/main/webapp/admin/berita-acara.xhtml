@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/main.xhtml">
+
+	<!-- tag for insert to content in template -->
+	<ui:define name="content">
+	
+	<p:commandButton id="input" value="Input Data Dosen"
+			onclick="PF('dlg3').show();" type="button" icon="ui-icon-circle-plus" />
+			
+			<h:form enctype="multipart/form-data"
+				styleClass="uk-form uk-form-stacked" id="in">
+		<p:dialog header="Input Data Dosen" widgetVar="dlg3" showEffect="drop"
+			hideEffect="drop" resizable="false" id="dlg3">
+
+				<!-- ID -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="ID Dokumen" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText id="id_dokumen" required="true"
+							styleClass="uk-width-1-1" value="#{beritaAcaraBean.id_dokumen}" disabled="true"/>
+
+					</div>
+
+				</div>
+
+				<!-- NAMA -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="Nama Dokumen" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+
+						<p:inputText required="true" id="nama" styleClass="uk-width-1-1"
+							value="#{beritaAcaraBean.nama_dokumen}" />
+
+						<p:watermark value="Nama Dokumen" for="nama"></p:watermark>
+
+					</div>
+
+				</div>
+
+				<!-- FILE -->
+				<div class="uk-form-row">
+
+					<h:outputLabel value="File Dokumen" styleClass="uk-form-label" />
+
+					<div class="uk-form-controls">
+						<p:fileUpload mode="simple" id="file_dokumen" value="#{beritaAcaraBean.uploadedFile}"/>
+					</div>
+
+				</div>
+
+				<!-- BUTTON -->
+				<div class="uk-form-row">
+					<p:commandButton value="Submit" ajax="false"
+						actionListener="#{beritaAcaraBean.actionDokume()}" id="e" />
+				</div>
+
+
+			
+		</p:dialog></h:form>
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable id="dokumens" var="dokumen"
+				value="#{beritaAcaraBean.dokumenList}" paginator="true" rows="5"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+				emptyMessage="Tidak Terdapat data dokumen"
+				filteredValue="#{beritaAcaraBean.listSearch}">
+				<f:facet name="header">  
+            Data Dokumen TIF Unpas  
+        </f:facet>
+				<p:column filterBy="#{dokumen.id_dokumen}">
+					<f:facet name="header">
+						<h:outputText value="ID Dokumen" />
+					</f:facet>
+					<h:outputText value="#{dokumen.id_dokumen}" />
+				</p:column>
+
+				<p:column 
+					filterBy="#{dokumen.nama_dokumen}">
+					<f:facet name="header">
+						<h:outputText value="Nama Dokumen" />
+					</f:facet>
+					<h:outputText value="#{dokumen.nama_dokumen}" />
+				</p:column>
+
+				<p:column  filterBy="#{dokumen.nama_file}">
+					<f:facet name="header">
+						<h:outputText value="File Dokumen" />
+					</f:facet>
+					<h:outputText value="#{dokumen.nama_file}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Aksi" />
+					</f:facet>
+
+					<p:commandButton update=":in:dlg3"
+						oncomplete="PF('dlg3').show()" icon="ui-icon-pencil"
+						title="View" actionListener="#{beritaAcaraBean.editDokumen(dokumen)}">
+						
+					</p:commandButton>
+
+
+					<p:commandButton update="confrim" oncomplete="PF('confrim').show()"
+						icon="ui-icon-trash" title="View">
+						<f:setPropertyActionListener value="#{dokumen}"
+							target="#{beritaAcaraBean.dokumen}" />
+					</p:commandButton>
+
+					<p:confirmDialog id="confrim" widgetVar="confrim" modal="true"
+						showEffect="fade" hideEffect="fade" resizable="false"
+						message="Anda Yakin akan menghapus data #{beritaAcaraBean.dokumen.nama_dokumen}"
+						header="Perhatian">
+
+						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check"
+							action="#{beritaAcaraBean.deleteDokumen(dokumen)}"
+							oncomplete="PF('confrim').hide()" update=":form">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('confrim').hide()" />
+
+					</p:confirmDialog>
+
+				</p:column>
+
+			</p:dataTable>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="sidebar">
+		<ui:include src="/admin/sidebar.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</html>

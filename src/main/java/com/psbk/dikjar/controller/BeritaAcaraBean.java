@@ -24,28 +24,30 @@ import org.springframework.web.context.support.ServletContextPropertySource;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.context.support.ServletContextResourceLoader;
 
+import com.psbk.dikjar.model.BeritaAcara;
 import com.psbk.dikjar.model.Dokumen;
+import com.psbk.dikjar.service.BeritaAcaraService;
 import com.psbk.dikjar.service.DokumenService;
 
 @ManagedBean
 @RequestScoped
-public class DokumenBean implements Serializable {
+public class BeritaAcaraBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	// private static final String SUCCESS = "view";
 	// private static final String ERROR = "error";
 
-	@ManagedProperty(value = "#{DokumenService}")
-	DokumenService dokumenService;
+	@ManagedProperty(value = "#{BeritaAcaraService}")
+	BeritaAcaraService dokumenService;
 
-	List<Dokumen> dokumenList;
+	List<BeritaAcara> dokumenList;
 
-	List<Dokumen> listSearch;
+	List<BeritaAcara> listSearch;
 
 	/**
 	 * @return the dokumenList
 	 */
-	public List<Dokumen> getDokumenList() {
+	public List<BeritaAcara> getDokumenList() {
 		dokumenList = new ArrayList<>();
 		dokumenList.addAll(getDokumenService().getDokumens());
 		return dokumenList;
@@ -55,14 +57,14 @@ public class DokumenBean implements Serializable {
 	 * @param dokumenList
 	 *            the dokumenList to set
 	 */
-	public void setDokumenList(List<Dokumen> dokumenList) {
+	public void setDokumenList(List<BeritaAcara> dokumenList) {
 		this.dokumenList = dokumenList;
 	}
 
 	/**
 	 * @return the listSearch
 	 */
-	public List<Dokumen> getListSearch() {
+	public List<BeritaAcara> getListSearch() {
 		return listSearch;
 	}
 
@@ -70,21 +72,20 @@ public class DokumenBean implements Serializable {
 	 * @param listSearch
 	 *            the listSearch to set
 	 */
-	public void setListSearch(List<Dokumen> listSearch) {
+	public void setListSearch(List<BeritaAcara> listSearch) {
 		this.listSearch = listSearch;
 	}
 
 	private String id_dokumen;
 	private String nama_dokumen;
 	private UploadedFile uploadedFile;
-	private String jenis_dokumen;
 
 	private static int _status = 0;
 
 	/**
 	 * @return the dokumenService
 	 */
-	public DokumenService getDokumenService() {
+	public BeritaAcaraService getDokumenService() {
 		return dokumenService;
 	}
 
@@ -92,7 +93,7 @@ public class DokumenBean implements Serializable {
 	 * @param dokumenService
 	 *            the dokumenService to set
 	 */
-	public void setDokumenService(DokumenService dokumenService) {
+	public void setDokumenService(BeritaAcaraService dokumenService) {
 		this.dokumenService = dokumenService;
 	}
 
@@ -144,27 +145,13 @@ public class DokumenBean implements Serializable {
 		this.uploadedFile = uploadedFile;
 	}
 
-	/**
-	 * @return the jenis_dokumen
-	 */
-	public String getJenis_dokumen() {
-		return jenis_dokumen;
-	}
 
-	/**
-	 * @param jenis_dokumen
-	 *            the jenis_dokumen to set
-	 */
-	public void setJenis_dokumen(String jenis_dokumen) {
-		this.jenis_dokumen = jenis_dokumen;
-	}
-
-	private Dokumen dokumen = new Dokumen();
+	private BeritaAcara dokumen = new BeritaAcara();
 
 	/**
 	 * @return the dokumen
 	 */
-	public Dokumen getDokumen() {
+	public BeritaAcara getDokumen() {
 		return dokumen;
 	}
 
@@ -172,7 +159,7 @@ public class DokumenBean implements Serializable {
 	 * @param dokumen
 	 *            the dokumen to set
 	 */
-	public void setDokumen(Dokumen dokumen) {
+	public void setDokumen(BeritaAcara dokumen) {
 		this.dokumen = dokumen;
 	}
 
@@ -192,18 +179,16 @@ public class DokumenBean implements Serializable {
 		if (i <= 99) {
 			kalimat.delete(0, 2);
 		}
-		this.id_dokumen = "DK-" + kalimat + i;
+		this.id_dokumen = "BA-" + kalimat + i;
 	}
 
 	public void actionDokume() {
-		Dokumen d = new Dokumen();
+		BeritaAcara d = new BeritaAcara();
 
 		d.setId_dokumen(getId_dokumen());
 		d.setNama_dokumen(getNama_dokumen());
 		d.setNama_file(getUploadedFile().getFileName());
-		d.setJenis_dokumen(getJenis_dokumen());
 		
-		System.out.println(_status);
 		try {
 			if (_status == 0) {
 				handleFileUpload();
@@ -214,7 +199,7 @@ public class DokumenBean implements Serializable {
 				resetField();
 			} else {
 				handleFileUpload();
-				System.out.println(d.getId_dokumen());
+				System.out.println(getId_dokumen());
 				getDokumenService().updateDokumen(d);
 				FacesMessage msg = new FacesMessage("Succesful",
 						d.getId_dokumen() + " Berhasil diedit");
@@ -231,20 +216,17 @@ public class DokumenBean implements Serializable {
 		this.setId_dokumen("");
 		this.setNama_dokumen("");
 		this.setUploadedFile(null);
-		this.setJenis_dokumen("");
 	}
 	
-	public void editDokumen(Dokumen d) {
+	public void editDokumen(BeritaAcara d) {
 		_status = 1;
 		d = getDokumenService().getDokumenById(d.getId_dokumen());
 		
 		setId_dokumen(d.getId_dokumen());
-		System.out.println(getId_dokumen());
 		setNama_dokumen(d.getNama_dokumen());
-		setJenis_dokumen(d.getJenis_dokumen());
 	}
 	
-	public void deleteDokumen(Dokumen d){
+	public void deleteDokumen(BeritaAcara d){
 		getDokumenService().deleteDokumen(d);
 		FacesMessage msg = new FacesMessage("Success delete dokumen "+d.getId_dokumen());
 		FacesContext.getCurrentInstance().addMessage(null, msg);

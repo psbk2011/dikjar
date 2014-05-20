@@ -236,6 +236,19 @@ public class UserController implements Serializable {
 		}
 		return false;
 	}
+	
+	public int checkStatus(){
+		for (Users user : getUserServices().getUsers()) {
+			if (user.getUsername().equalsIgnoreCase(getUsername())
+					&& user.getPassword().equalsIgnoreCase(
+							getMD5(getPassword()))) {
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+		return -1;
+	}
 
 	public boolean isValidInput() {
 
@@ -248,7 +261,10 @@ public class UserController implements Serializable {
 	public String actionLogin() {
 		if (isValidInput()) {
 			if (isLogin()) {
+				if(checkStatus() == 1)
 				return "admin/home?faces-redirect=true";
+				else
+					return "user/home?faces-redirect=true";	
 			} else {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Error", "Username atau Password Salah");
