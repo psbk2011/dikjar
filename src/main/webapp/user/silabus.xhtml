@@ -9,12 +9,35 @@
 
 	<!-- tag for insert to content in template -->
 	<ui:define name="content">
-	
-			
-			<h:form enctype="multipart/form-data"
-				styleClass="uk-form uk-form-stacked" id="in">
-		<p:dialog header="Input Data Dosen" widgetVar="dlg3" showEffect="drop"
-			hideEffect="drop" resizable="false" id="dlg3">
+
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false" resizable="false">
+			<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<h:form>
+			<p:commandButton value="Download" ajax="false"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<p:fileDownload value="#{dokumenBean.file}" />
+			</p:commandButton>
+		</h:form>
+
+		<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+}
+</script>
+
+
+		<h:form enctype="multipart/form-data"
+			styleClass="uk-form uk-form-stacked" id="in">
+			<p:dialog header="Input Data Dosen" widgetVar="dlg3"
+				showEffect="drop" hideEffect="drop" resizable="false" id="dlg3">
 
 				<!-- ID -->
 				<div class="uk-form-row">
@@ -24,7 +47,8 @@
 					<div class="uk-form-controls">
 
 						<p:inputText id="id_dokumen" required="true"
-							styleClass="uk-width-1-1" value="#{dokumenBean.id_dokumen}" disabled="true"/>
+							styleClass="uk-width-1-1" value="#{dokumenBean.id_dokumen}"
+							disabled="true" />
 
 					</div>
 
@@ -52,7 +76,8 @@
 					<h:outputLabel value="File Dokumen" styleClass="uk-form-label" />
 
 					<div class="uk-form-controls">
-						<p:fileUpload mode="simple" id="file_dokumen" value="#{dokumenBean.uploadedFile}"/>
+						<p:fileUpload mode="simple" id="file_dokumen"
+							value="#{dokumenBean.uploadedFile}" />
 					</div>
 
 				</div>
@@ -63,7 +88,7 @@
 						styleClass="uk-form-label" />
 					<div class="uk-form-controls">
 						<p:selectOneMenu value="#{dokumenBean.jenis_dokumen}"
-							style="width:100%" >
+							style="width:100%">
 							<f:selectItem itemLabel="Pilih Jenis Dokumen" itemValue="" />
 							<f:selectItem itemLabel="Silabus" itemValue="Silabus" />
 							<f:selectItem itemLabel="Kurikulum" itemValue="Kurikulum" />
@@ -79,8 +104,9 @@
 				</div>
 
 
-			
-		</p:dialog></h:form>
+
+			</p:dialog>
+		</h:form>
 
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
@@ -100,29 +126,38 @@
 					<h:outputText value="#{dokumen.id_dokumen}" />
 				</p:column>
 
-				<p:column 
-					filterBy="#{dokumen.nama_dokumen}">
+				<p:column filterBy="#{dokumen.nama_dokumen}">
 					<f:facet name="header">
 						<h:outputText value="Nama Dokumen" />
 					</f:facet>
 					<h:outputText value="#{dokumen.nama_dokumen}" />
 				</p:column>
 
-				<p:column  filterBy="#{dokumen.jenis_dokumen}">
+				<p:column filterBy="#{dokumen.jenis_dokumen}">
 					<f:facet name="header">
 						<h:outputText value="Jenis Dokumen" />
 					</f:facet>
 					<h:outputText value="#{dokumen.jenis_dokumen}" />
 				</p:column>
 
-				<p:column  filterBy="#{dokumen.nama_file}">
+				<p:column filterBy="#{dokumen.nama_file}">
 					<f:facet name="header">
 						<h:outputText value="File Dokumen" />
 					</f:facet>
 					<h:outputText value="#{dokumen.nama_file}" />
 				</p:column>
 
-				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Aksi" />
+					</f:facet>
+					<p:commandButton value="Download" ajax="false"
+						onclick="PrimeFaces.monitorDownload(start, stop);"
+						icon="ui-icon-arrowthick-1-s">
+						<p:fileDownload value="#{dokumenBean.getFile(dokumen)}" />
+					</p:commandButton>
+				</p:column>
+
 
 			</p:dataTable>
 

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -269,6 +270,16 @@ public class DokumenBean implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private StreamedContent file;
+	
+	public StreamedContent getFile(Dokumen dokumen) {
+	System.out.println(dokumen.getNama_file());
+		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/assets/resources/"+dokumen.getNama_file());
+		System.out.println(stream);
+		file = new DefaultStreamedContent(stream);
+		return file;
 	}
 
 }
