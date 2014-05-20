@@ -276,9 +276,8 @@ public class DokumenBean implements Serializable {
 	
 	public StreamedContent getFile(Dokumen dokumen) {
 	System.out.println(dokumen.getNama_file());
-		InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/assets/resources/"+dokumen.getNama_file());
-		System.out.println(stream);
-		file = new DefaultStreamedContent(stream);
+	 InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/assets/resources/"+dokumen.getNama_file());
+     file = new DefaultStreamedContent(stream, "application/xlsx", "downloaded_"+dokumen.getNama_file());
 		return file;
 	}
 
