@@ -74,7 +74,7 @@ public class DokumenBean implements Serializable {
 		this.listSearch = listSearch;
 	}
 
-	private String id_dokumen;
+	private static String id_dokumen;
 	private String nama_dokumen;
 	private UploadedFile uploadedFile;
 	private String jenis_dokumen;
@@ -214,7 +214,7 @@ public class DokumenBean implements Serializable {
 				resetField();
 			} else {
 				handleFileUpload();
-				System.out.println(d.getId_dokumen());
+				System.out.println(id_dokumen);
 				getDokumenService().updateDokumen(d);
 				FacesMessage msg = new FacesMessage("Succesful",
 						d.getId_dokumen() + " Berhasil diedit");
@@ -236,7 +236,7 @@ public class DokumenBean implements Serializable {
 	
 	public void editDokumen(Dokumen d) {
 		_status = 1;
-		d = getDokumenService().getDokumenById(d.getId_dokumen());
+		this.dokumen = getDokumenService().getDokumenById(d.getId_dokumen());
 		
 		setId_dokumen(d.getId_dokumen());
 		System.out.println(getId_dokumen());

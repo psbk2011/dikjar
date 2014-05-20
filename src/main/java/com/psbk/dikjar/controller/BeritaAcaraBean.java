@@ -76,7 +76,7 @@ public class BeritaAcaraBean implements Serializable {
 		this.listSearch = listSearch;
 	}
 
-	private String id_dokumen;
+	private static String id_dokumen;
 	private String nama_dokumen;
 	private UploadedFile uploadedFile;
 

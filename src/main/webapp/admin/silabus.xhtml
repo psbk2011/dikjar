@@ -77,7 +77,7 @@
 				<!-- BUTTON -->
 				<div class="uk-form-row">
 					<p:commandButton value="Submit" ajax="false"
-						actionListener="#{dokumenBean.actionDokume()}" id="e" />
+						actionListener="#{dokumenBean.actionDokume()}" id="e" update=":form:dokumens"/>
 				</div>
 
 
@@ -149,7 +149,7 @@
 
 						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
 							icon="ui-icon-check"
-							action="#{dokumenBean.deleteDokumen(dokumen)}"
+							actionListener="#{dokumenBean.deleteDokumen(dokumen)}"
 							oncomplete="PF('confrim').hide()" update=":form">
 						</p:commandButton>
 						<p:commandButton value="No" type="button"
